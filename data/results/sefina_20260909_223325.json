@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Longines Conquest 25mm – L1.131 med box",
+    "description": "",
+    "item_id": "000134-42-00-2",
+    "price": "2.495:-",
+    "url": "https://www.sefina.se/product/armbandsur-longines-conquest-10/",
+    "image_url": "https://www.sefina.se/wp-content/uploads/2026/09/000134-42-00-2-400x300.jpg",
+    "source": "sefina",
+    "site": "shop",
+    "search_keyword": "",
+    "timestamp": "2026-09-09 22:33:16",
+    "visual_match": false,
+    "visual_distance": 28,
+    "visual_best_ref": "data/reference_images/actual_pendant_version_1.png"
+  },
+  {
+    "title": "Piercingsmycke Silver S925 Med gröna stenar",
+    "description": "",
+    "item_id": "034906-12-00-1",
+    "price": "200:-",
+    "url": "https://www.sefina.se/product/piercingsmycke-silver-s925/",
+    "image_url": "https://www.sefina.se/wp-content/uploads/2026/09/034906-12-00-1-400x300.jpg",
+    "source": "sefina",
+    "site": "shop",
+    "search_keyword": "",
+    "timestamp": "2026-09-09 22:33:16",
+    "visual_match": false,
+    "visual_distance": 28,
+    "visual_best_ref": "data/reference_images/similar_pendant_2.jpg"
+  },
+  {
+    "title": "Hänge med runskrift",
+    "description": "",
+    "item_id": "046399-61-00-11",
+    "price": "395:-",
+    "url": "https://www.sefina.se/product/hange-med-runskrift/",
+    "image_url": "https://www.sefina.se/wp-content/uploads/2026/09/046399-61-00-11-400x300.jpg",
+    "source": "sefina",
+    "site": "shop",
+    "search_keyword": "",
+    "timestamp": "2026-09-09 22:33:18",
+    "visual_match": false,
+    "visual_distance": 26,
+    "visual_best_ref": "data/reference_images/actual_pendant_version_1.png"
+  },
+  {
+    "title": "Hängen 3 st",
+    "description": "",
+    "item_id": "046428-61-00-1",
+    "price": "535:-",
+    "url": "https://www.sefina.se/product/hangen-3-st/",
+    "image_url": "https://www.sefina.se/wp-content/uploads/2026/09/046428-61-00-1-400x300.jpg",
+    "source": "sefina",
+    "site": "shop",
+    "search_keyword": "",
+    "timestamp": "2026-09-09 22:33:19",
+    "visual_match": false,
+    "visual_distance": 30,
+    "visual_best_ref": "data/reference_images/actual_pendant_version_1.png"
+  }
+]

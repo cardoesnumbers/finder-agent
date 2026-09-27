@@ -1,0 +1,59 @@
+{
+  "item_name": "Our Lady of Fatima Catholic Medallion Pendant",
+  "description": "Oval Catholic medallion featuring the Virgin Mary of Fatima in prayer pose, with scalloped/wavy edge, likely rose or yellow gold tone",
+  "date_lost": "2023-08",
+  "location_lost": ["Stockholm", "Sörmland", "Stockholms län"],
+  "target_platforms": {
+    "pantbanken": ["https://shop.pantbanken.se/webshop"],
+    "pantit": ["https://marknad.pantit.se"],
+    "sefina": [
+      "https://auktion.sefina.se/auktioner/",
+      "https://www.sefina.se/shop-online/"
+    ],
+    "marketplaces": ["https://www.blocket.se", "https://www.tradera.com"]
+  },
+  "query_keywords": {
+    "swedish": [
+      "Jungfru Maria Fatima hängsmycke",
+      "Vår Fru av Fatima medalj",
+      "Fatima medaljong",
+      "Guds moder hänge guld",
+      "Katolskt Fatima halsband",
+      "Fatima medalj guld",
+      "Maria medaljong",
+      "fatima",
+      "fatima medalj",
+      "fatima hängsmycke",
+      "Katolsk medalj",
+      "Religiöst hängsmycke",
+      "Jungfru Maria medaljong"
+    ],
+    "english": [
+      "Our Lady of Fatima medallion",
+      "Fatima pendant",
+      "Virgin Mary Fatima necklace",
+      "Catholic Fatima medal"
+    ]
+  },
+  "negative_keywords": [
+    "hand", "hamsa", "örhängen", "ring", "ny", "nyköpt",
+    "barn", "baby", "man", "mans", "armband", "herre", "manligt",
+    "kedja", "länk", "ankare", "pansarlänk", "x-länk", "knivslipad",
+    "parti", "berlock", "halsband", "klocka", "ur", "watch", "cash", "guldskrot",
+    "smälta", "skrot", "bar", "stång", "tråd", "mynt", "coin", "medalj",
+    "bestick", "sked", "gaffel", "kniv", "servis", "moccasked", "pälichsked",
+    "påläggsgaffel", "fiskbestick", "kaffesked", "silverförädade", "rostfritt"
+  ],
+  "visual_descriptors": {
+    "shape": "oval",
+    "edge": "scalloped/wavy border",
+    "depiction": "standing Virgin Mary figure with hands joined in prayer",
+    "material_tone": ["rose gold", "yellow gold", "gold-colored"],
+    "size_estimate": "2-4 cm diameter"
+  },
+  "search_filters": {
+    "min_date": "2023-08-01",
+    "location": ["Stockholm", "Sörmland", "Stockholms län", "Eskilstuna"],
+    "category": ["smycken", "hängsmycken", "medaljer", "religiösa föremål"]
+  }
+}

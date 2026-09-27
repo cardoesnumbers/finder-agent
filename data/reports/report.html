@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finder Agent - Search Results</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 { 
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .stats { 
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stats span { 
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .filters { 
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .filters a { 
+            margin-right: 15px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .results-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .result-card { 
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .result-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        .result-image { 
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        .result-info { 
+            padding: 15px;
+        }
+        .result-title { 
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .result-meta { 
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .result-price { 
+            font-size: 16px;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 8px;
+        }
+        .match-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .match-true { background: #27ae60; }
+        .match-false { background: #e74c3c; }
+        .distance-tag { 
+            display: inline-block;
+            background: #3498db;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+        .ref-image { 
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        .result-link { 
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #0066cc;
+            font-size: 12px;
+            text-decoration: none;
+        }
+        .result-link:hover { 
+            text-decoration: underline;
+        }
+        .no-results { 
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+        .source-tag { 
+            display: inline-block;
+            background: #9b59b6;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Finder Agent - Search Results</h1>
+    
+    <div class="stats">
+        <span>Total Results: 100</span>
+        <span>Visual Matches: 48</span>
+        <span>Showing: 48 items</span>
+        <span>Generated: 2026-09-14 22:31:41</span>
+    </div>
+    
+    <div class="filters">
+        <strong>Filter:</strong>
+        <a href="#" onclick="filterReport('all')">All Results</a>
+        <a href="#" onclick="filterReport('matches')">Visual Matches Only</a>
+        <a href="#" onclick="filterReport('distance-25')">Distance ≤ 25</a>
+        <a href="#" onclick="filterReport('distance-20')">Distance ≤ 20</a>
+        <a href="#" onclick="filterReport('distance-15')">Distance ≤ 15</a>
+        <a href="#" onclick="location.reload()">Reset</a>
+    </div>
+    
+    <div class="results-grid" id="results">
+
+        <div class="result-card" data-match="true" data-distance="20">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/07/034600-12-00-2-400x300.jpg" alt="Hänge/berlock Kors Silver S830" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 20</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge/berlock Kors Silver S830</div>
+                <div class="result-meta">ID: 034600-12-00-2</div>
+                <div class="result-price">60:-</div>
+                
+                <a href="https://www.sefina.se/product/hange-berlock-kors-silver-23/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="20">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/033825-12-02-1-300x300.jpg" alt="Armband X-länk med stav Guld 18K 19,5g Längd 16,5c" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 20</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Armband X-länk med stav Guld 18K 19,5g Längd 16,5cm Bredd 13,3mm</div>
+                <div class="result-meta">ID: 033825-12-02-1</div>
+                <div class="result-price">19 700 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/armband-x-lank-med-stav-guld-18k-195g-langd-165cm-bredd-133mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="20">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/6a8d667d87a40ec62cda8f10-za1c-324x324.jpg" alt="Parti Guld 18K 50.59g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 20</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">Parti Guld 18K 50.59g</div>
+                <div class="result-meta">ID: 403060</div>
+                <div class="result-price">53 575 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/parti-guld-18k-50-59g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="20">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/6a8d667d87a40ec62cda8f10-za1c-324x324.jpg" alt="Parti Guld 18K 50.59g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 20</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">Parti Guld 18K 50.59g</div>
+                <div class="result-meta">ID: 403060</div>
+                <div class="result-price">53 575 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/parti-guld-18k-50-59g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/046364-61-00-1-400x300.jpg" alt="Servisdelar 24 st modell Rosen S830 312,3g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Servisdelar 24 st modell Rosen S830 312,3g</div>
+                <div class="result-meta">ID: 046364-61-00-1</div>
+                <div class="result-price">9.055:-</div>
+                
+                <a href="https://www.sefina.se/product/servisdelar-24-st/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/046364-61-00-1-400x300.jpg" alt="Servisdelar 24 st modell Rosen S830 312,3g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Servisdelar 24 st modell Rosen S830 312,3g</div>
+                <div class="result-meta">ID: 046364-61-00-1</div>
+                <div class="result-price">9.055:-</div>
+                
+                <a href="https://www.sefina.se/product/servisdelar-24-st/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/6a8c0ae25495a599dc86c76f-ess8-324x324.jpg" alt="53cm Halsband i Guld 18K 39.03g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">53cm Halsband i Guld 18K 39.03g</div>
+                <div class="result-meta">ID: 402327</div>
+                <div class="result-price">43 080 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/53cm-halsband-i-guld-18k-39-03g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/09/69aa993b83571bb45a95773a-i73x-324x324.jpg" alt="52.5cm Balestra Pansarlänk i Guld 18K 59.75g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">52.5cm Balestra Pansarlänk i Guld 18K 59.75g</div>
+                <div class="result-meta">ID: 404874</div>
+                <div class="result-price">65 886 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/52-5cm-balestra-pansarlank-i-guld-18k-59-75g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/6a8c0ae25495a599dc86c76f-ess8-324x324.jpg" alt="53cm Halsband i Guld 18K 39.03g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">53cm Halsband i Guld 18K 39.03g</div>
+                <div class="result-meta">ID: 402327</div>
+                <div class="result-price">43 080 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/53cm-halsband-i-guld-18k-39-03g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/04/69d76b9adcf56ce902e41ba5-1x8d-324x324.jpg" alt="46.5cm Doserad Bismarcklänk i Guld 18K 36.21g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">46.5cm Doserad Bismarcklänk i Guld 18K 36.21g</div>
+                <div class="result-meta">ID: 343199</div>
+                <div class="result-price">42 225 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/46-5cm-doserad-bismarcklank-i-guld-18k-36-21g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/07/6a3cf44562112f297f206e74-s0h0-324x324.jpg" alt="45.5cm Bismarcklänk i Guld 18K 35.83g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">45.5cm Bismarcklänk i Guld 18K 35.83g</div>
+                <div class="result-meta">ID: 379844</div>
+                <div class="result-price">41 782 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/45-5cm-bismarcklank-i-guld-18k-35-83g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/05/6a01c7e4804f327aa0deb339-r9fl-324x324.jpg" alt="45cm Doserad Bismarcklänk i Guld 18K 34.99g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">45cm Doserad Bismarcklänk i Guld 18K 34.99g</div>
+                <div class="result-meta">ID: 359130</div>
+                <div class="result-price">40 803 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/45cm-doserad-bismarcklank-i-guld-18k-34-99g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/05/6a1058d12d5ac18f22e9d7ad-c9hn-324x324.jpg" alt="59cm Knivslipad Ankarlänk i Guld 18K 32.98g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">59cm Knivslipad Ankarlänk i Guld 18K 32.98g</div>
+                <div class="result-meta">ID: 364611</div>
+                <div class="result-price">39 546 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/59cm-knivslipad-ankarlank-i-guld-18k-32-98g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="22">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/02/69848e9ec2ddd003e7a354c7-8aqq-324x324.jpg" alt="Ole Lynggaard Hänge i Silver S925 3.7g 24mm" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 22</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">Ole Lynggaard Hänge i Silver S925 3.7g 24mm</div>
+                <div class="result-meta">ID: 314324</div>
+                <div class="result-price">3 096 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/ole-lynggaard-hange-i-silver-s925-3-7g-24mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/09/000226-42-00-1-300x300.jpg" alt="Hänge sigill Guld 14K samt rostfritt stål bruttovi" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge sigill Guld 14K samt rostfritt stål bruttovikt 3,2g Höjd 20mm</div>
+                <div class="result-meta">ID: 000226-42-00-1</div>
+                <div class="result-price">600 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/hange-sigill-guld-14k-samt-rostfritt-stal-bruttovikt-32g-hojd-20mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/045554-61-00-1-400x300.jpg" alt="Kaffeskedar 6 st silver" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Kaffeskedar 6 st silver</div>
+                <div class="result-meta">ID: 045554-61-00-1</div>
+                <div class="result-price">2.295:-</div>
+                
+                <a href="https://www.sefina.se/product/kaffeskedar-6-st-4/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/045554-61-00-1-400x300.jpg" alt="Kaffeskedar 6 st silver" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Kaffeskedar 6 st silver</div>
+                <div class="result-meta">ID: 045554-61-00-1</div>
+                <div class="result-price">2.295:-</div>
+                
+                <a href="https://www.sefina.se/product/kaffeskedar-6-st-4/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/035049-12-00-4-400x300.jpg" alt="Hänge/berlock Kors Silver" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge/berlock Kors Silver</div>
+                <div class="result-meta">ID: 035049-12-00-4</div>
+                <div class="result-price">60:-</div>
+                
+                <a href="https://www.sefina.se/product/hange-berlock-kors-silver-24/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034176-12-00-5-300x300.jpg" alt="Hänge/berlock Guld 18K 2,1g Höjd 30mm" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge/berlock Guld 18K 2,1g Höjd 30mm</div>
+                <div class="result-meta">ID: 034176-12-00-5</div>
+                <div class="result-price">2 100 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/hange-berlock-guld-18k-21g-hojd-30mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://www.sefina.se/wp-content/uploads/woocommerce-placeholder-400x300.png" alt="Hjärta höjd 15mm" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hjärta höjd 15mm</div>
+                <div class="result-meta">ID: 058686-28-01-3</div>
+                <div class="result-price">830:-</div>
+                
+                <a href="https://www.sefina.se/product/hjarta-hojd-15mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2024/09/65cded0753e2127ca4d9eb27-bmgd-324x324.jpg" alt="21cm Cartier – Santos De Cartier Watch" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">21cm Cartier – Santos De Cartier Watch</div>
+                <div class="result-meta">ID: 206831</div>
+                <div class="result-price">42 500 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/cartier-santos-klocka-21cm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/09/6a956c7cd63d0948c819561f-i2od-324x324.jpg" alt="19cm X-Länk i Guld 18K 44.81g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">19cm X-Länk i Guld 18K 44.81g</div>
+                <div class="result-meta">ID: 405110</div>
+                <div class="result-price">51 658 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/19cm-x-lank-i-guld-18k-44-81g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/6a8eb5aa7c7036e082965b37-xpkz-324x324.jpg" alt="19.5cm X-Länk med Stav i Guld 18K 39.71g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">19.5cm X-Länk med Stav i Guld 18K 39.71g</div>
+                <div class="result-meta">ID: 403444</div>
+                <div class="result-price">43 831 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/19-5cm-x-lank-med-stav-i-guld-18k-39-71g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2024/09/65cded0753e2127ca4d9eb27-bmgd-324x324.jpg" alt="21cm Cartier – Santos De Cartier Watch" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">21cm Cartier – Santos De Cartier Watch</div>
+                <div class="result-meta">ID: 206831</div>
+                <div class="result-price">42 500 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/cartier-santos-klocka-21cm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/04/69ce1eeed2c783ef80b8ae32-a1rn-324x324.jpg" alt="55cm Ankarlänk i Guld 18K 31.93g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">55cm Ankarlänk i Guld 18K 31.93g</div>
+                <div class="result-meta">ID: 341337</div>
+                <div class="result-price">38 853 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/55cm-ankarlank-i-guld-18k-31-93g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/05/6a0197162df596d7d38b8256-xif7-324x324.jpg" alt="71cm Venezialänk i Guld 18K 33.02g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">71cm Venezialänk i Guld 18K 33.02g</div>
+                <div class="result-meta">ID: 358931</div>
+                <div class="result-price">38 506 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/71cm-venezialank-i-guld-18k-33-02g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/69c53cfd23f65aefba330002-ae2d-324x324.jpg" alt="42.5cm Doserad Bismarcklänk i Guld 18K 30.93g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">42.5cm Doserad Bismarcklänk i Guld 18K 30.93g</div>
+                <div class="result-meta">ID: 400742</div>
+                <div class="result-price">37 243 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/42-5cm-doserad-bismarcklank-i-guld-18k-30-93g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="24">
+            <img src="https://marknad.pantit.se/wp-content/uploads/2026/08/699ef8bbf511a3da181d4faa-22cb-324x324.jpg" alt="49.5cm Balestra Flackslipad Ankarlänk i Guld 18K 2" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 24</span>
+                    <span class="source-tag">pantit</span>
+                </div>
+                <div class="result-title">49.5cm Balestra Flackslipad Ankarlänk i Guld 18K 28.86g</div>
+                <div class="result-meta">ID: 400667</div>
+                <div class="result-price">33 303 kr</div>
+                
+                <a href="https://marknad.pantit.se/produkt/49-5cm-balestra-flackslipad-ankarlank-i-guld-18k-28-86g/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="26">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/032366-12-03-1-300x300.jpg" alt="Armbandsur Tissot Stål Längd 16,5cm Boett 30,0mm S" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 26</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Armbandsur Tissot Stål Längd 16,5cm Boett 30,0mm Ser.nr EN2EW2 Ref.nr T109210A WR 3 Bar Stållänk</div>
+                <div class="result-meta">ID: 032366-12-03-1</div>
+                <div class="result-price">600 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/armbandsur-tissot-stal-langd-165cm-boett-300mm-ser-nr-en2ew2-ref-nr-t109210a-wr-3-bar-stallank/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="26">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034176-12-00-1-300x300.jpg" alt="Halskedja Venezia Guld 18K 5,8g Längd 41cm Bredd 1" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 26</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Venezia Guld 18K 5,8g Längd 41cm Bredd 1,2mm</div>
+                <div class="result-meta">ID: 034176-12-00-1</div>
+                <div class="result-price">6 000 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedja-venezia-guld-18k-58g-langd-41cm-bredd-12mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="26">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034176-12-00-2-300x300.jpg" alt="Halskedja Venezia Guld 18K 4,3g Längd 50cm Bredd 0" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 26</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Venezia Guld 18K 4,3g Längd 50cm Bredd 0,95mm</div>
+                <div class="result-meta">ID: 034176-12-00-2</div>
+                <div class="result-price">4 400 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedja-venezia-guld-18k-43g-langd-50cm-bredd-095mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="26">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034176-12-00-4-300x300.jpg" alt="Armband Figaro Guld 18K 2,7g Längd 18,5cm Bredd 2," class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 26</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Armband Figaro Guld 18K 2,7g Längd 18,5cm Bredd 2,2mm</div>
+                <div class="result-meta">ID: 034176-12-00-4</div>
+                <div class="result-price">2 800 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/armband-figaro-guld-18k-27g-langd-185cm-bredd-22mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="28">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034040-12-01-1-300x300.jpg" alt="Halskedja Kvadratisk Rävssvans Guld 21K 2,7g Längd" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 28</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Kvadratisk Rävssvans Guld 21K 2,7g Längd 39cm Bredd 1,0mm</div>
+                <div class="result-meta">ID: 034040-12-01-1</div>
+                <div class="result-price">2 800 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedja-kvadratisk-ravssvans-guld-21k-27g-langd-39cm-bredd-10mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="28">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/Fiskedrag-400x300.jpg" alt="Låda med diverse fiskedrag såsom vobblers skeddrag" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 28</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Låda med diverse fiskedrag såsom vobblers skeddrag mfl</div>
+                <div class="result-meta">ID: 053226-51-00-4</div>
+                <div class="result-price">175:-</div>
+                
+                <a href="https://www.sefina.se/product/1-lada-med/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="28">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/AbuGarcia1-400x300.jpg" alt="Fiskerulle Abu Garcia Cardinal PRO 2000" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 28</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Fiskerulle Abu Garcia Cardinal PRO 2000</div>
+                <div class="result-meta">ID: 053226-51-00-6</div>
+                <div class="result-price">165:-</div>
+                
+                <a href="https://www.sefina.se/product/fiskerulle-abu-garcia-8/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="28">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/08/037157-64-00-3-400x300.jpg" alt="Halskedja Bismarck" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 28</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Bismarck</div>
+                <div class="result-meta">ID: 037157-64-00-3</div>
+                <div class="result-price">5.165:-</div>
+                
+                <a href="https://www.sefina.se/product/halskedja-bismarck-guld-307/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="28">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/08/036265-64-00-3-400x300.jpg" alt="Halskedja Venezia" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 28</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Venezia</div>
+                <div class="result-meta">ID: 036265-64-00-3</div>
+                <div class="result-price">3.310:-</div>
+                
+                <a href="https://www.sefina.se/product/halskedja-venezia-guld-1439/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="30">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034040-12-01-2-300x300.jpg" alt="Hänge/berlock Guld 21K 1,8g Höjd 28mm" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 30</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge/berlock Guld 21K 1,8g Höjd 28mm</div>
+                <div class="result-meta">ID: 034040-12-01-2</div>
+                <div class="result-price">1 900 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/hange-berlock-guld-21k-18g-hojd-28mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="30">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034169-12-00-1-300x300.jpg" alt="HalskedjaPansar ihålig Guld 14K 4,3g Längd 50,5cm " class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 30</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">HalskedjaPansar ihålig Guld 14K 4,3g Längd 50,5cm Bredd 2,8mm</div>
+                <div class="result-meta">ID: 034169-12-00-1</div>
+                <div class="result-price">3 000 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedjapansar-ihalig-guld-14k-43g-langd-505cm-bredd-28mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="30">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/fladen1-400x300.jpg" alt="Fladen 1000 havsfiskerulle" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 30</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Fladen 1000 havsfiskerulle</div>
+                <div class="result-meta">ID: 053226-51-00-7</div>
+                <div class="result-price">115:-</div>
+                
+                <a href="https://www.sefina.se/product/fladen-1000-havsfiskerulle/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="30">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/041503-61-03-2-400x300.jpg" alt="Hänge guld 18K/21K" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 30</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Hänge guld 18K/21K</div>
+                <div class="result-meta">ID: 041503-61-03-2</div>
+                <div class="result-price">10.000:-</div>
+                
+                <a href="https://www.sefina.se/product/hange-guld-18k-21k/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="30">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/06/034019-41-00-2-400x300.jpg" alt="Omega damur 18K 18mm cal 484 – 1965" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 30</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Omega damur 18K 18mm cal 484 – 1965</div>
+                <div class="result-meta">ID: 034019-41-00-2</div>
+                <div class="result-price">36.575:-</div>
+                
+                <a href="https://www.sefina.se/product/omega-damur-18k-6/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="32">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/033825-12-02-2-300x300.jpg" alt="Armband Cordell Guld 14K 2,4g Längd 19cm Bredd 2,8" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 32</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Armband Cordell Guld 14K 2,4g Längd 19cm Bredd 2,8mm</div>
+                <div class="result-meta">ID: 033825-12-02-2</div>
+                <div class="result-price">1 700 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/armband-cordell-guld-14k-24g-langd-19cm-bredd-28mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="32">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034176-12-00-3-300x300.jpg" alt="Halskedja Pansar Guld 18K 3,5g Längd 42,5cm Bredd " class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 32</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Pansar Guld 18K 3,5g Längd 42,5cm Bredd 1,8mm</div>
+                <div class="result-meta">ID: 034176-12-00-3</div>
+                <div class="result-price">3 600 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedja-pansar-guld-18k-35g-langd-425cm-bredd-18mm/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="32">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/05/034378-12-00-2-400x300.jpg" alt="Pärlcollier Silverlås S835 Med odlade pärlor" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 32</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Pärlcollier Silverlås S835 Med odlade pärlor</div>
+                <div class="result-meta">ID: 034378-12-00-2</div>
+                <div class="result-price">1.795:-</div>
+                
+                <a href="https://www.sefina.se/product/parlcollier-med-105/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="32">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/08/060477-28-00-2-400x300.jpg" alt="Collier Guld 18K" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 32</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Collier Guld 18K</div>
+                <div class="result-meta">ID: 060477-28-00-2</div>
+                <div class="result-price">39.000:-</div>
+                
+                <a href="https://www.sefina.se/product/collier-guld-18k-145/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="34">
+            <img src="https://auktion.sefina.se/wp-content/uploads/2026/08/034230-12-00-1-300x300.jpg" alt="Halskedja Ankar med integrerat hänge Guld 14K 3,1g" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 34</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Halskedja Ankar med integrerat hänge Guld 14K 3,1g Längd 46,5cm Bredd 0,6mm Med sten</div>
+                <div class="result-meta">ID: 034230-12-00-1</div>
+                <div class="result-price">2 200 kr</div>
+                
+                <a href="https://auktion.sefina.se/produkt/halskedja-ankar-med-integrerat-hange-guld-14k-31g-langd-465cm-bredd-06mm-med-sten/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+        <div class="result-card" data-match="true" data-distance="34">
+            <img src="https://www.sefina.se/wp-content/uploads/2026/09/053945-51-00-1-400x300.jpg" alt="Laptop Msi Creator Z16" class="result-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22250%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>No Image</text></svg>'">
+            <div class="result-info">
+                <div>
+                    <span class="match-badge match-true">✓ MATCH</span>
+                    <span class="distance-tag">dist: 34</span>
+                    <span class="source-tag">sefina</span>
+                </div>
+                <div class="result-title">Laptop Msi Creator Z16</div>
+                <div class="result-meta">ID: 053945-51-00-1</div>
+                <div class="result-price">8.995:-</div>
+                
+                <a href="https://www.sefina.se/product/laptop-msi-creator/" class="result-link" target="_blank">View Listing →</a>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        function filterReport(type) {
+            const allCards = document.querySelectorAll('.result-card');
+            
+            allCards.forEach(card => {
+                const isMatch = card.dataset.match === 'true';
+                const distance = parseInt(card.dataset.distance) || 999;
+                
+                let show = true;
+                switch(type) {
+                    case 'matches':
+                        show = isMatch;
+                        break;
+                    case 'distance-25':
+                        show = isMatch && distance <= 25;
+                        break;
+                    case 'distance-20':
+                        show = isMatch && distance <= 20;
+                        break;
+                    case 'distance-15':
+                        show = isMatch && distance <= 15;
+                        break;
+                    case 'all':
+                        show = true;
+                        break;
+                }
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
