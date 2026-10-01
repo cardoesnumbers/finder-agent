@@ -314,8 +314,6 @@ def run_search(config_path: str = "config/item_profile.json") -> None:
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
     
-    # Pantit doesn't have search, so we just scrape the main page
-    # We'll use the Swedish keywords for reference but scrape all items
     keywords = config["query_keywords"]["swedish"]
     negative_keywords = config.get("negative_keywords", [])
     
@@ -323,7 +321,7 @@ def run_search(config_path: str = "config/item_profile.json") -> None:
     print(f"Negative keywords: {negative_keywords}")
     print(f"Visual matching: ENABLED")
     
-    results = search_items(negative_keywords=negative_keywords, use_visual=True)
+    results = search_items(keywords, negative_keywords=negative_keywords, use_visual=True)
     
     # Save results
     output_dir = Path("data/results")

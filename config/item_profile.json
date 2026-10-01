@@ -36,16 +36,10 @@
     ]
   },
   "negative_keywords": [
-    "hand", "hamsa", "örhängen", "ring", "ny", "nyköpt",
-    "barn", "baby", "man", "mans", "armband", "herre", "manligt",
-    "kedja", "länk", "ankare", "pansarlänk", "x-länk", "knivslipad",
-    "parti", "berlock", "halsband", "klocka", "ur", "watch", "cash", "guldskrot",
-    "smälta", "skrot", "bar", "stång", "tråd", "mynt", "coin", "medalj",
-    "bestick", "sked", "gaffel", "kniv", "servis", "moccasked", "pälichsked",
-    "påläggsgaffel", "fiskbestick", "kaffesked", "silverförädade", "rostfritt"
+    "hand", "hamsa"
   ],
   "visual_descriptors": {
-    "shape": "oval",
+    "shape": ["round", "circular", "disk"],
     "edge": "scalloped/wavy border",
     "depiction": "standing Virgin Mary figure with hands joined in prayer",
     "material_tone": ["rose gold", "yellow gold", "gold-colored"],
@@ -53,7 +47,6 @@
   },
   "search_filters": {
     "min_date": "2023-08-01",
-    "location": ["Stockholm", "Sörmland", "Stockholms län", "Eskilstuna"],
     "category": ["smycken", "hängsmycken", "medaljer", "religiösa föremål"]
   }
 }
